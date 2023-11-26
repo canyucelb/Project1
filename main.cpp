@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 #include "City.h"
+#include "Car.h"
 #include "Util.h"
 
 // The main function - entry point of the program.
@@ -17,6 +18,9 @@ int main() {
   // Initially give orders to cars based on the starting scenario.
   city.give_orders();
 
+  printf("\n - Welcome ! - \n");
+  printf("\n  **State College Food Optimization Service (SCFOS)**  \n");
+
   // Main simulation loop: continue reading and processing orders until there are no more.
   while (true) {
     // Read the next order, and if there are no more orders, exit the loop.
@@ -27,8 +31,19 @@ int main() {
     city.give_orders();
   }
 
-  // After processing all orders, print the total score achieved by the simulation.
-  printf("Total Score: %d\n", city.get_total_score());
+
+  auto cars = city.getCars();
+  for(int i=0;i<(int)cars.size();i++){
+    cars[i]->cut_sequence();
+  }
+
+  for(int i=0;i<(int)cars.size();i++){
+    printf("Instructions assigned to car %d:\n",i+1);
+    auto instr = cars[i]->getAllInstructions();
+    city.print_instruction(i+1, instr);
+  }
+
+
   // Output statistics collected during the simulation.
   statistics::output_statistics();
   

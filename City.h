@@ -25,12 +25,21 @@ public:
   // Getter method to calculate and return the total score of all processed orders.
   int get_total_score() const;
 
-private:
-  // Internal method to print the instruction sequence for a car with a given id.
+ std::vector<std::pair<int, std::vector<std::pair<std::pair<int, int>,
+                                                   std::pair<Order *, int>>>>>
+  get_instructions();    
+
+  // Method to print the instruction sequence for a car with a given id.
   void print_instruction(
       int id,
       const std::vector<std::pair<std::pair<int, int>, std::pair<Order *, int>>>
           &seq);
+
+  std::vector<Car *> getCars();
+
+
+private:
+  
 
   // Internal variables to store the width and height of the city grid.
   int width;
@@ -41,4 +50,8 @@ private:
 
   // Vector to store pointers to Order objects representing the orders in the city.
   std::vector<Order *> orders;
+
+   std::vector<std::pair<int, std::vector<std::pair<std::pair<int, int>,
+                                                   std::pair<Order *, int>>>>> instructions;
+  
 };

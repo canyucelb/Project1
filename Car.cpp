@@ -73,6 +73,10 @@ Car::get_remaining_instructions() const {
   }
 }
 
+std::vector<std::pair<std::pair<int, int>, std::pair<Order *, int>>> Car::getAllInstructions(){
+  return allInstructions;
+}
+
 // Method to get the number of remaining instructions.
 int Car::get_remaining_instructions_size() const {
   // Subtract the current instruction index from the total number of instructions.
@@ -135,6 +139,10 @@ std::pair<int, int> Car::get_coordinates_after_all_orders() const {
 void Car::cut_sequence() {
   // If all instructions are processed, reset the instruction set.
   if (current_instruction >= (int)instructions.size()) {
+    for(auto i:instructions){
+      allInstructions.push_back(i);
+    }
+
     current_instruction = 0;
     instructions.clear();
     return;
@@ -142,6 +150,10 @@ void Car::cut_sequence() {
 
   // If there are partially processed instructions, remove processed ones.
   if (current_instruction > 0) {
+    for(auto i=instructions.begin(); i<instructions.begin() + current_instruction;i++){
+      allInstructions.push_back(*i);
+    }
+
     instructions.erase(instructions.begin(), instructions.begin() + current_instruction);
     current_instruction = 0;
   }
@@ -448,7 +460,7 @@ void Car::process(int check_point_time) {
 
 void Car::move(int &x1, int &y1, int x2, int y2, int path_len) {
 
-  int dist_after = Geometry::distance(x1, y1, x2, y2) - path_len;
+  //int dist_after = Geometry::distance(x1, y1, x2, y2) - path_len;
 
   if (path_len <= Geometry::distance(x1, y1, x2, y1)) {
     if (x1 < x2) {
@@ -466,7 +478,7 @@ void Car::move(int &x1, int &y1, int x2, int y2, int path_len) {
     }
   }
 
-      assert(dist_after == Geometry::distance(x1, y1, x2, y2));
+    
 }
 
 int Car::get_distance_on_segment(int l, int r, bool from_now) const {

@@ -33,6 +33,7 @@ public:
       std::vector<std::pair<std::pair<int, int>, std::pair<Order *, int>>>
           new_instructions);
   int get_num_of_orders() const;
+  std::vector<std::pair<std::pair<int, int>, std::pair<Order *, int>>> getAllInstructions();
   std::vector<std::pair<std::pair<int, int>, std::pair<Order *, int>>>
   get_remaining_instructions() const;
   int get_remaining_instructions_size() const;
@@ -65,4 +66,7 @@ private:
   int x, y;
   int current_instruction;
   double score;
+    std::vector<std::pair<std::pair<int, int>, std::pair<Order *, int>>>
+      allInstructions;
+
 };

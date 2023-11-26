@@ -11,7 +11,8 @@
 
 // Constructor for the City class.
 City::City(int width, int height, int numCars) : width(width), height(height) {
-  // Initialize cars with the default constructor and add them to the cars vector.
+  // Initialize cars with the default constructor and add them to the cars
+  // vector.
   for (int i = 0; i < numCars; i++) {
     cars.push_back(new Car());
   }
@@ -27,23 +28,25 @@ void City::process_orders(int timestamp) {
 
 // Method to read and process the next order.
 bool City::read_order() {
-  int nid = (int)orders.size() + 1; // Calculate the next order ID.
+  int nid = (int)orders.size() + 1;           // Calculate the next order ID.
   orders.push_back(Order::create_order(nid)); // Create and add the order.
   // If the last order signals the end, give final orders and process them.
   if (orders.back()->get_time_created() == -1) {
     City::give_orders();
     City::process_orders(1e7); // Process all remaining orders.
-    return false; // Indicate no more orders to read.
+    return false;              // Indicate no more orders to read.
   }
   // Process orders up to the time the last order was created.
   City::process_orders(orders.back()->get_time_created());
-  return orders.back()->get_time_created() != -1; // Return whether more orders are available.
+  return orders.back()->get_time_created() !=
+         -1; // Return whether more orders are available.
 }
 
 // Method to give instructions to the cars based on current orders.
 void City::give_orders() {
   // If no orders or a termination signal is received, do not process further.
-  if (City::orders.empty() || City::orders.back()->get_begin_coordinates().first == -1) {
+  if (City::orders.empty() ||
+      City::orders.back()->get_begin_coordinates().first == -1) {
     return;
   }
   // Logic to determine balance points for distributing orders among cars.
@@ -116,7 +119,8 @@ void City::give_orders() {
     Car *car = cars[i];
     auto ad = car->get_remaining_instructions();
     reverse(ad.begin(), ad.end());
-    ad.push_back(std::make_pair(car->get_coordinates(), std::make_pair(nullptr, 0)));
+    ad.push_back(
+        std::make_pair(car->get_coordinates(), std::make_pair(nullptr, 0)));
     reverse(ad.begin(), ad.end());
     p1[i] = ad.back().first;
     mem[i] = ad;
@@ -136,12 +140,10 @@ void City::give_orders() {
     out.push_back(std::make_pair(i + 1, mem[i]));
   }
 
-  printf("%d\n", (int)out.size());
-  for (auto i : out) {
-    City::print_instruction(i.first, i.second);
-  }
-  fflush(stdout);
+
 }
+
+
 
 // Method to calculate the total score for all processed orders.
 int City::get_total_score() const {
@@ -158,8 +160,7 @@ int City::get_total_score() const {
 // Variable to keep track of the total number of commands.
 int total_cmd_len = 0;
 
-
-// Method to print the instructions for a car.
+// // Method to print the instructions for a car.
 void City::print_instruction(
     int car_id,
     const std::vector<std::pair<std::pair<int, int>, std::pair<Order *, int>>>
@@ -167,19 +168,26 @@ void City::print_instruction(
 
   total_cmd_len += (int)seq.size(); // Update the total command length.
 
-  printf("%d %d\n", car_id, (int)seq.size()); // Print car ID and number of instructions.
-
   // Print each instruction in the sequence.
   for (auto pr : seq) {
-    printf("%d %d ", pr.first.first, pr.first.second);
-
     // Print action based on whether it's a pickup, drop-off, or other.
     if (pr.second.second == 1) {
-      printf("%d\n", pr.second.first->get_id()); // Pickup.
+      printf("Car %d drives to location (%d, %d) ",car_id, pr.first.first, pr.first.second);
+      printf("to pick up order.\n"); 
     } else if (pr.second.second == -1) {
-      printf("-%d\n", pr.second.first->get_id()); // Drop-off.
-    } else {
-      printf("%d\n", pr.second.second); // Other actions.
+      printf("Car %d drives to location (%d, %d) ",car_id, pr.first.first, pr.first.second);
+      printf("to deliver order.\n");
     }
   }
 }
+
+
+ std::vector<std::pair<int, std::vector<std::pair<std::pair<int, int>,
+                                                   std::pair<Order *, int>>>>> City::get_instructions() {
+  return instructions;
+}
+
+std::vector<Car *> City::getCars(){
+  return cars;
+}
+
