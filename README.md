@@ -16,10 +16,12 @@ SCFOS is an interactive optimization solution designed to automate and optimize 
 ## Compilation and Running
 Ensure you have a C++ compiler installed and configured on your system.
 
-To compile the project, run:
+To compile the project, navigate to the `src` directory and use the Makefile:
 
-make clean
-make
+```sh
+cd src
+make clean  # Cleans previous builds
+make        # Compiles the project
 
 This will generate the executable `main` which you can run with:
 
