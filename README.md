@@ -23,7 +23,7 @@ make
 
 This will generate the executable `main` which you can run with:
 
-./main <tests/testfile
+./main < tests/testfile
 
 Replace `testfile` with the name of your test input file.
 
